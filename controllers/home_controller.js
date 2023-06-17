@@ -1,3 +1,5 @@
 module.exports.home = (req,res) => {
-    res.end('<h1>Express is running fast</h1> ')
+    res.render('home', {
+        title:"Home"
+    })
 }
