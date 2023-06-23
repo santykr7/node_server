@@ -67,6 +67,33 @@ module.exports.create = async function (req, res) {
   };
   
 
-module.exports.createSession = (req,res) => {
+
+  // sign in and create session for user
+module.exports.createSession = async function(req,res) {
+  try{
+    //find the user 
+    let finder = await User.findOne({email: req.body.email})
+
+    //handle user if found
+    if(finder) {
+      //handle when passord is wrong
+      if(finder.password!=req.body.password) {
+        return res.redirect('back')
+      }
+      //handle creste session 
+      res.cookie('user_id',finder.id);
+      return res.redirect('/users/profile')
+    }
     
+    //handle user if not found
+    else {
+      return res.redirect('back')
+    }
+  }
+  catch(err){
+    console.log('error in sign in page ')
+    return
+  }
+    
+
 }
