@@ -1,9 +1,23 @@
 const { error } = require('console')
 const User = require('../models/user')
 
-module.exports.profile = (req,res) => {
+module.exports.profile = async function(req,res)  {
 
-    
+    if(req.cookies.user_id) {
+      let userSession = await User.findById(req.cookies.user_id)
+      if(userSession) {
+          return res.render('profile',{
+            title:'user profile',
+            users:userSession
+          });
+          
+      }
+      return res.redirect('sign-in');
+      
+    }else{
+      return res.redirect('sign-in');
+      
+    }
 
     res.render('profile',{
         users: "Ashwini"
