@@ -3,7 +3,7 @@ const User = require('../models/user')
 
 module.exports.profile = (req,res) => {
     res.render('profile',{
-        users: "Ashwini"
+        users: "Steve"
     })
 }
 
