@@ -1,12 +1,12 @@
 const { error } = require('console')
 const User = require('../models/user')
 
-module.exports.profile = async function(req,res)  {
+module.exports.profile = async (req,res) =>  {
 
     if(req.cookies.user_id) {
       let userSession = await User.findById(req.cookies.user_id)
       if(userSession) {
-          return res.render('profile',{
+        return res.render('profile',{
             title:'user profile',
             users:userSession
           });
@@ -18,10 +18,6 @@ module.exports.profile = async function(req,res)  {
       return res.redirect('sign-in');
       
     }
-
-    res.render('profile',{
-        users: "Ashwini"
-    })
 }
 
 // render the Signup page
@@ -61,10 +57,10 @@ module.exports.signIn = (req,res) => {
     
 // }
 
-module.exports.create = async function (req, res) {
+module.exports.create = async (req, res) => {
     try {
       if (req.body.password != req.body.confirm_password) {
-        return res.redirect('back');
+         return res.redirect('back');
       }
   
       let finder = await User.findOne({ email: req.body.email });
@@ -73,9 +69,9 @@ module.exports.create = async function (req, res) {
       if (!finder) {
         let created = await User.create(req.body);
         console.log('User created:', created);
-        return res.redirect('/users/sign-in');
+         res.redirect('/users/sign-in');
       } else {
-        return res.redirect('back');
+         return res.redirect('back');
       }
     } catch (err) {
       console.log('Error: ', err);
@@ -86,7 +82,7 @@ module.exports.create = async function (req, res) {
 
 
   // sign in and create session for user
-module.exports.createSession = async function(req,res) {
+module.exports.createSession = async (req,res) =>{
   try{
     //find the user 
     let finder = await User.findOne({email: req.body.email})
@@ -99,7 +95,7 @@ module.exports.createSession = async function(req,res) {
       }
       //handle creste session 
       res.cookie('user_id',finder.id);
-      return res.redirect('/users/profile')
+       res.redirect('/users/profile')
     }
     
     //handle user if not found
