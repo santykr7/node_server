@@ -3,7 +3,7 @@ const User = require('../models/user')
 
 module.exports.profile = (req,res) => {
     res.render('profile',{
-        users: "Steve"
+        users: "Ashwini"
     })
 }
 
@@ -44,6 +44,8 @@ module.exports.signIn = (req,res) => {
     
 // }
 
+//sign up data
+
 module.exports.create = async function (req, res) {
     try {
       if (req.body.password != req.body.confirm_password) {
@@ -66,12 +68,27 @@ module.exports.create = async function (req, res) {
     }
   };
   
+//sign in and create session for the user
+module.exports.createSession = async (req,res) => {
 
-module.exports.createSession = (req,res) => {
-<<<<<<< HEAD
-     return res.redirect('/');
+  //steps to auth
+  //find the user
+  let finder = await User.findOne({ email: req.body.email });
+  //if user found
+  if(finder) {
+    //password did not match
+    if(User.password != req.body.password){
+      return redirect('back')
+    }
+    //handle session creation
+    res.cookie('user_id',user.id);
+    return res.redirect('/users/profile');
+
+  }
+  else{
+    //handle user not found
+    return res.redirect('back')
+  }
+
+     
 }
-=======
-    
-}
->>>>>>> 905a069d780f455524e6e20450a52317da718047
