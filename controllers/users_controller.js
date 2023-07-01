@@ -3,7 +3,7 @@ const User = require('../models/user')
 
 module.exports.profile = (req,res) => {
     res.render('profile',{
-        users: "Ashwini"
+        users: "Steve"
     })
 }
 
@@ -68,5 +68,10 @@ module.exports.create = async function (req, res) {
   
 
 module.exports.createSession = (req,res) => {
+<<<<<<< HEAD
      return res.redirect('/');
 }
+=======
+    
+}
+>>>>>>> 905a069d780f455524e6e20450a52317da718047
