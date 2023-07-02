@@ -1,64 +1,123 @@
 const passport = require('passport')
-const LocalStrategy = require('passport-local').Strategy
-const User = require('../models/user')
+const LocalStrategy = require('passport-local').Strategy;
+const User = require('../models/user');
 
-passport.use( new LocalStrategy({
-    usernameField:'email'
+
+// authentication using passport
+passport.use(new LocalStrategy({
+    usernameField: 'email'
 },
-async(email,password,done)=> {
-    let findUser = await User.findOne({email:email})
-    console.log('found User')
+async function(email, password, done){
+    // find a user and establish the identity
     
+    let user = await User.findOne({email: email})
+        
 
-    if(!findUser || findUser.password != password){
-        console.log('error in user/password')
-        return done(null,false)
+        if (!user || user.password != password){
+            console.log('Invalid Username/Password');
+            return done(null, false);
+        }
+
+        return done(null, user);
     }
-    return done(null, findUser)
-}))
+    ));
 
 
 
-//serializing fn - user to decide which key is to be kept in the cookies
-passport.serializeUser(function(user,done) {
-        done(null,user.id)
-}) 
+// serializing the user to decide which key is to be kept in the cookies
+passport.serializeUser(function(user, done){
+done(null, user.id);
+});
 
-// deseialize fn - deseriallize user from the key in the cookies
-passport.deserializeUser( async (id,done) => {
+
+
+// deserializing the user from the key in the cookies
+passport.deserializeUser(async (id, done) =>{
     try{
-    let findUser = await User.findById(id);
-    return done(null,findUser)
-    }
-    catch{
-        console.log('error in deserialize')
-    }
-})
+        let user = await User.findById(id)
+         return done(null,user);
 
-// passport.deserializeUser(async (id, done) => {
-//     const user = await User.findById(id);
-  
-//     if (!user) {
-//       return done(null, false);
-//     }
-  
-//     return done(null, user);
-//   })
-
-//check if user is authenticated
-passport.checkUserAuthenticated = (req,res,next) => {
-    if(req.isAuthenticated()) {
-        return next()
-    }
-    return res.redirect('/users/sign-in')
+   
+}catch{
+    console.log('eror in de')
 }
 
-passport.setAuthenticatedUser = (req,res,next) =>{
-    if(req.isAuthenticated()) {
-        req.locals.user = req.user
-    }
-    next();
+});
+ 
+// check if the user is authenticated
+passport.checkAuthentication = (req, res, next) => {
+// if the user is signed in, then pass on the request to the next function(controller's action)
+if (req.isAuthenticated()){
+    return next();
+}
+// if the user is not signed in
+return res.redirect('/users/sign-in');
 }
 
+passport.setAuthenticatedUser = (req, res, next) => {
+if (req.isAuthenticated()){
+    // req.user contains the current signed in user from the session cookie and we are just sending this to the locals for the views
+    res.locals.user = req.user;
+}
+ next();
+}
 
 module.exports = passport;
+
+// //authentication using passport
+// passport.use( new LocalStrategy({
+//     usernameField:'email'
+// },
+// async(email,password,done)=> {
+//     //find the user and establish the id 
+//     let findUser = await User.findOne({email:email})
+//     console.log('found User')
+    
+
+//     if(!findUser || findUser.password != password){
+//         console.log('error in user/password')
+//         return done(null,false)
+//     }
+//     return done(null, findUser)
+// }))
+
+
+
+// //serializing fn - user to decide which key is to be kept in the cookies
+// passport.serializeUser(function(findUser,done) {
+//         done(null,findUser.id)
+// }) 
+
+// // deseialize fn - deseriallize user from the key in the cookies
+// // 
+
+// // deserialize the user from the key in cookies
+// passport.deserializeUser(function(id, done){
+//     User.findById(id)
+//     .then((user)=>{
+//         return done(null, user);
+//     })
+
+//     .catch((err)=>{
+//         console.log("Error in finding user ---> passport");
+//         return done(err);
+//     })
+// })
+
+// //check if user is authenticated
+// passport.checkUserAuthentication = (req,res,next) => {
+//     if(req.isAuthenticated()) {
+//         return next()
+//     }
+//     return res.redirect('/users/sign-in')
+// }
+
+// passport.setAuthenticatedUser = (req,res,next) =>{
+//     if(req.isAuthenticated()) {
+//         req.locals.user = req.user;
+//     }
+//     next();
+// }
+
+
+// module.exports = passport;
