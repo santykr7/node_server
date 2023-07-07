@@ -1,7 +1,12 @@
-module.exports.home = (req,res) => {
-    console.log(req.cookies);
-    res.cookie('user_id',25);
+const Post = require('../models/posts')
+
+module.exports.home = async (req,res) => {
+    // console.log(req.cookies);
+    // res.cookie('user_id',25);
+
+    let disPost = await Post.find({}).populate('user')
     return res.render('home', {
-        title:"Home"
-    })
-}
+        title:"ChatterBox | Home",
+        posts : disPost
+    })  
+}   
