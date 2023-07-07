@@ -7,6 +7,8 @@ console.log('routers is loaded');
 routers.get('/',homeController.home);
 routers.use('/users',require('./users'));
 routers.use('/posts',require('./posts'));
+routers.use('/comments',require('./comments'));
+
 
 
 module.exports = routers;

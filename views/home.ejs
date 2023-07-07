@@ -9,6 +9,7 @@
             <textarea name="content" id="" cols="30" rows="3" placeholder="type here..."></textarea>
             <input type="submit" value="Post">
          </form>
+        
          <% } %>
       
          <div id="post-container">
@@ -21,7 +22,17 @@
                         <%= post.user.name %>
                      </small>
                   </li>
-                  <% } %>
-            </ul>
+                  <div class="post-comment">
+                     <% if(locals.user) { %>
+                        <form action="/comments/create" id="post-form" method="post">
+                           <input type="text" name="content" placeholder="type comment..">
+                           <input type="hidden" name="post" value="<%= post._id %>">
+                           <input type="submit" value="Comment here">
+                        </form>
+                        <% } %>
+                  </div>
+                  <% } %>  
+                  
+            </ul> 
          </div>
     </section>
