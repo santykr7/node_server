@@ -1,0 +1,31 @@
+#layout-header nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+  color: aliceblue;
+  background: #cc1b7c;
+  box-shadow: 1px 1px 1px 1px #7272b6;
+}
+
+#layout-header nav .mini-logo p {
+  margin: 5px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: black;
+}
+
+#layout-header nav .auth-link ul {
+  margin: 5% 5px;
+  display: flex;
+}
+
+#layout-header nav .auth-link ul li {
+  margin-right: 10px;
+  list-style: none;
+}
+
+#layout-header nav a {
+  color: aliceblue;
+  text-decoration: none;
+  margin: 10px;
+}

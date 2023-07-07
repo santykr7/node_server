@@ -85,9 +85,15 @@ module.exports.createSession = (req,res) => {
   
 }
 //sign in and finish session for the user
-module.exports.destroySession = (req,res) => {
-  req.logout();
+module.exports.destroySession = (req,res,next) =>{
+
+  req.logout(function(err) {
+    if(err) {
+      return next(err)
+    }
+  
 
   return res.redirect('/');
+  });
   
 }
