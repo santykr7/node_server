@@ -1,4 +1,5 @@
 const Post = require('../models/posts')
+const User = require('../models/user')
 
 module.exports.home = async (req,res) => {
     // console.log(req.cookies);
@@ -12,8 +13,10 @@ module.exports.home = async (req,res) => {
         }
     })
     
+    let users = await User.find({})
     return res.render('home', {
         title:"ChatterBox | Home",
-        posts : disPost
+        posts : disPost,
+        all_user : users
     })  
 }   

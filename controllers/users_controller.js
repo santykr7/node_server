@@ -1,11 +1,30 @@
 const { error } = require('console')
 const User = require('../models/user')
 
-module.exports.profile = (req,res) => {
-    res.render('profile',{
-        users: "users profile"
+module.exports.profile = async(req,res) => {
+  let user = await User.findById(req.params.id)
+  
+   return res.render('profile',{
+        title: "users profile",
+        profile_user: user 
+    
     })
+  
 }
+
+module.exports.update = async(req,res) => {
+  try{
+    if(req.user.id == req.params.id ) {
+
+      let user = await User.findByIdAndUpdate(req.params.id, req.body)
+      return res.redirect('back')
+    }
+  }catch(err) {
+    console.log('error in updation',err)
+  }
+  
+}
+
 
 // render the Signup page
 module.exports.signUp = (req,res) => {
