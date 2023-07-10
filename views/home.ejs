@@ -1,7 +1,7 @@
+ <link rel="stylesheet" href="/css/home.css">
+ 
  <h1>Home ejs is loaded</h1>
-    <p>codeial / <%= title %></p>
-
-
+<div class="home-container">
     <section id="feed-post">
       <h3>Post</h3>
       <% if(locals.user) { %>
@@ -19,17 +19,18 @@
                   <%- include('_post') -%>
 
                   <% } %>  
-                  
 
             </ul> 
          </div>
     </section>
+   
 
     <section id="user-sec">
-      <h4>friends</h4>
+      <h4>Friends</h4>
       <% for(u of all_user) { %>
          <p>
             <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
          </p>
          <% } %>
     </section>
+   </div>
