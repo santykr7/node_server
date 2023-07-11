@@ -8,6 +8,7 @@ module.exports.create = async(req,res) => {
         user: req.user._id
 
     });
+    req.flash('success','Post pulished!')
     return res.redirect('back')
 }catch(err) {console.log('error in create post',err)}
 }
@@ -17,6 +18,8 @@ module.exports.destroy = async(req,res) =>{
     //.id is help to convert into string
     if(post.user == req.user.id) {                                               
         post.deleteOne()
+
+        req.flash('success','Post deleted')
 
         let deleteComment = await Comment.deleteMany({post:req.params.id})
         return res.redirect('back');
